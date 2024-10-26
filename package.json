@@ -1,0 +1,30 @@
+{
+  "name": "ecommerce",
+  "version": "1.0.0",
+  "description": "This project is a simple ecommece platform specifically dessigned for electronics.",
+  "main": "server.js",
+  "scripts": {
+    "start": " nodemon server.js",
+    "test": "test"
+  },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/HilufTesfay/ecommerce-project/"
+  },
+  "keywords": [
+    "node.js",
+    "express",
+    "web development",
+    "api"
+  ],
+  "author": "hiluf",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1",
+    "mongodb": "^6.10.0",
+    "mongoose": "^8.7.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
