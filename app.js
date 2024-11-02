@@ -1,9 +1,11 @@
 const express = require("express");
 const app = express();
 app.use(express.json());
-const CusrtemorRegisterRouter = require("./routes/api/registerRoute");
+const CusrtemorRouter = require("./routes/api/registerRoute");
+const productRouter = require("./routes/api/productRoute");
 const errHandler = require("./middleware/errorHandler");
-app.use("/api/customer", CusrtemorRegisterRouter);
+app.use("/api/customer", CusrtemorRouter);
+app.use("/api/product", productRouter);
 app;
 app.get("/home", (req, res) => {
   res.status(200).send("home");
