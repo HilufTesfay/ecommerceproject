@@ -1,5 +1,5 @@
 const Customer = require("../models/custemorProfile");
-const errHandler = require("../middleware/errorHandelr");
+const errHandler = require("../middleware/errorHandler");
 //define  function to create new customer acount
 createCustomer = errHandler.handleAsyncError(async function (req, res, next) {
   const newCustomer = new Customer(req.body);
@@ -8,7 +8,6 @@ createCustomer = errHandler.handleAsyncError(async function (req, res, next) {
     status: "successfull",
     message: "congratulation!,you have created your acount successfully",
   });
-  next();
 });
 updateCustomer = async function (req, res, next) {};
 

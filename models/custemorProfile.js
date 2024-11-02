@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
-const errHandler = require("./../middleware/errorHandelr");
+const errHandler = require("./../middleware/errorHandler");
 //define timestamp plugin
 function timeStamp(schema) {
   schema.add({

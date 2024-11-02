@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const dbServer = "mongodb://localhost/student";
+const dbServer = "mongodb://localhost/Ecommerce";
 //This function connects to data base
 function connectToDb() {
   mongoose

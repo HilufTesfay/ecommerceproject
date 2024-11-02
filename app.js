@@ -2,8 +2,9 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 const CusrtemorRegisterRouter = require("./routes/api/registerRoute");
-const errHandler = require("./middleware/errorHandelr");
+const errHandler = require("./middleware/errorHandler");
 app.use("/api/customer", CusrtemorRegisterRouter);
+app;
 app.get("/home", (req, res) => {
   res.status(200).send("home");
 });
