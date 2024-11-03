@@ -5,8 +5,7 @@ const CusrtemorRouter = require("./routes/api/registerRoute");
 const productRouter = require("./routes/api/productRoute");
 const errHandler = require("./middleware/errorHandler");
 app.use("/api/customer", CusrtemorRouter);
-app.use("/api/product", productRouter);
-app;
+app.use("/api/products", productRouter);
 app.get("/home", (req, res) => {
   res.status(200).send("home");
 });

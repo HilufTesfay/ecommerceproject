@@ -60,9 +60,9 @@ const productSchema = new mongoose.Schema({
   },
   reviews: [
     {
-      user: {
+      customer: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        ref: "Customer",
         required: true,
       },
       rating: {
