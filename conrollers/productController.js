@@ -144,9 +144,9 @@ const addCustomerReviews = errHandler.handleAsyncError(
               const prevCount = product.ratings.count;
               const currentRating = review.ratings;
               product.ratings.average = calculateAverageRatings(
-                prevAvgRating,
-                prevCount,
-                currentRating
+                parseFloat(prevAvgRating),
+                parseInt(prevCount),
+                parseInt(currentRating)
               );
               product.ratings.count = product.ratings.count + 1;
             }
@@ -162,6 +162,7 @@ const addCustomerReviews = errHandler.handleAsyncError(
         sendFailedRespons(res, 400, "you have to create acount or login ");
       }
     } else {
+      sendFailedRespons(res, 400, "you can't post review");
     }
   }
 );
