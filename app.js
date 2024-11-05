@@ -1,11 +1,9 @@
 const express = require("express");
 const app = express();
 app.use(express.json());
-const CusrtemorRouter = require("./routes/api/registerRoute");
-const productRouter = require("./routes/api/productRoute");
+const routes = require("./routes/v1");
 const errHandler = require("./middleware/errorHandler");
-app.use("/api/customer", CusrtemorRouter);
-app.use("/api/products", productRouter);
+app.use("/v1/", routes);
 app.get("/home", (req, res) => {
   res.status(200).send("home");
 });
