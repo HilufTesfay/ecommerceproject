@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const Review = require("./reviewModel");
+const { timeStamp, toJSON } = require("./plugins");
 //define product schema
 const productSchema = new mongoose.Schema({
   name: {
@@ -43,41 +45,20 @@ const productSchema = new mongoose.Schema({
   },
   images: [
     {
-      url: {
-        type: String,
-        required: true,
-      },
-      alt: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ProductImage",
     },
   ],
-  dateAdded: {
-    type: Date,
-    default: Date.now,
-  },
-  lastUpdated: {
-    type: Date,
-    default: Date.now,
-  },
   reviews: [
     {
-      customer: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Customer",
-        required: true,
-      },
-      rating: {
-        type: Number,
-        min: [0, "Rating must be at least 0"],
-        max: [5, "Rating must be at most 5"],
-      },
-      comment: String,
-      date: {
-        type: Date,
-        default: Date.now,
-      },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Review",
     },
   ],
 });
+
+productSchema.plugin(timeStamp, { schemaName: "product" });
+productSchema.plugin(toJSON);
 productSchema.pre("save", function (next) {
   this.lastUpdated = Date.now();
   next();

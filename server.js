@@ -1,6 +1,6 @@
 //This is the server
 const app = require("./app");
-const connectToDb = require("./models/dataBaseConnection");
+const { connectToDb } = require("./models");
 const config = require("./config/config");
 const port = config.PORT || 5000;
 const dBURl = config.DbconnectionUrl;

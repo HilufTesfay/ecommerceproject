@@ -1,31 +1,16 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
-const errHandler = require("./../middleware/errorHandler");
-//define timestamp plugin
-function timeStamp(schema) {
-  schema.add({
-    createdAt: {
-      type: Date,
-    },
-    updateAt: {
-      type: Date,
-    },
-  });
-}
-//define function to update createAt And createdAt fields
-function recordTimeStamp(customer) {
-  let currentTime = Date();
-  customer.updateAt = currentTime;
-  if (!customer.createdAt) {
-    customer.createdAt = currentTime;
-  }
-}
+const errHandler = require("../middleware/errorHandler");
+const { timeStamp, toJSON } = require("./plugins");
 //define customer schema
 const customerSchema = mongoose.Schema({
-  /*custProfilePic: {
-    type: Buffer,
-  },*/
+  customerProfilePic: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Profile",
+    },
+  ],
   firstName: {
     type: String,
     required: [true, "first Name is required"],
@@ -94,7 +79,7 @@ const customerSchema = mongoose.Schema({
       type: [String, "please enter valid valid city name"],
       validate: {
         validator: (value) => validator.isLength(value, [1, 10]),
-        message: (props) => `${props.value} is shoul 1-10 length`,
+        message: (props) => `${props.value} is should 1-10 length`,
       },
     },
   },
@@ -104,17 +89,30 @@ const customerSchema = mongoose.Schema({
       validator: (value) => validator.isStrongPassword(value),
       message: "your password is not Strong",
     },
+    private: true,
   },
 });
+//define static method to check if phone number is used or not
+customerSchema.statics.isphoneNumberUsed = async function (phoneNumber) {
+  const customer = await this.findOne({ phoneNumber: phoneNumber });
+  const isUsed = !!customer;
+  return isUsed;
+};
+////define static method to check if email is used or not
+customerSchema.statics.isEmailUsed = async function (CustomerEmail) {
+  const customer = await this.findOne({ email: CustomerEmail });
+  const isUsed = !!customer;
+  return isUsed;
+};
 
-//call timeStamp plugin function to add createAt and UpdateAt fiels
-customerSchema.plugin(timeStamp);
+//add timeStamp and toJSON  plugin functions to add createAt and UpdateAt fiels
+customerSchema.plugin(timeStamp, { schemaName: "customer" });
+customerSchema.plugin(toJSON, { schemaName: "customer" });
 // hash password before save
 customerSchema.pre(
   "save",
   errHandler.handleMgAsyncError(async function (next) {
     const customer = this;
-    recordTimeStamp(customer);
     const salt = await bcrypt.genSalt(10);
     customer.password = await bcrypt.hash(customer.password, salt);
     next();

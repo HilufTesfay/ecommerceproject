@@ -11,7 +11,7 @@ class CustomError extends Error {
 //define async functions erorr handler
 const handleAsyncError = (asyncFunc) => {
   return (req, res, next) => {
-    asyncFunc.call(this, req, res, next).catch((err) => next(err));
+    asyncFunc.call(this, req, res).catch((err) => next(err));
   };
 };
 // a special async error handler for functions has this keyword
