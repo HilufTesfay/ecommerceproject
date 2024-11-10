@@ -44,13 +44,17 @@ const deleteProductById = async (req) => {
 };
 //define search function
 const searchProduct = async (req) => {
-  const { name, category, minPrice, maxPrice, brand, ratings } = req.query;
+  const { name, category, minPrice, maxPrice, price, brand, ratings } =
+    req.query;
   let query = {};
   if (name) {
     query.name = { $regex: name, $options: "i" };
   }
   if (category) {
     query.category = { $regex: category, $options: "i" };
+  }
+  if (price) {
+    query.price = parseFloat(price);
   }
   if (minPrice && maxPrice) {
     query.price = { $gte: parseFloat(minPrice), $lte: parseFloat(maxPrice) };
@@ -61,6 +65,9 @@ const searchProduct = async (req) => {
   }
   if (brand) {
     query.brand = { $regex: brand, $options: "i" };
+  }
+  if (ratings) {
+    query["ratings.average"] = { $gte: parseInt(ratings) };
   }
   if (query) {
     let products = await Product.find(query);
