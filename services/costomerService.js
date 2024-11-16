@@ -67,7 +67,6 @@ const getCustomers = async () => {
 const searchCustomerByEmail = async (email) => {
   let customer = null;
   customer = await Customer.findOne({ email: email });
-  console.log("called");
   return customer;
 };
 //define function to search customer by Phone number

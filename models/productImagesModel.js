@@ -1,6 +1,6 @@
 const { default: mongoose } = require("mongoose");
 
-const productImageSChema = mongoose.Schema({
+const productImageSChema = new mongoose.Schema({
   images: {
     product: {
       type: mongoose.Schema.Types.ObjectId,

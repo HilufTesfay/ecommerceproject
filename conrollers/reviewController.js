@@ -1,5 +1,5 @@
 const { reviewService } = require("../services");
-const errHandler = require("../middleware/errorHandler");
+const { errHandler } = require("../middleware");
 const { sendSuccessfullRespons, sendFailedRespons } = require("./utils");
 //define function to check eligibilty of the customer,if the product is found in the database
 const checkReview = (

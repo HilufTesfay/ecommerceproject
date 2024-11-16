@@ -3,7 +3,7 @@ const app = require("./app");
 const { connectToDb } = require("./models");
 const config = require("./config/config");
 const port = config.PORT || 5000;
-const dBURl = config.DbconnectionUrl;
+const dBURl = config.DBCONNECTION_URL;
 const server = app.listen(port, () => {
   connectToDb(dBURl);
   console.log(`server is listing at port ${port}`);

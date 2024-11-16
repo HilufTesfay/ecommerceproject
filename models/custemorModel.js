@@ -1,10 +1,9 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
-const errHandler = require("../middleware/errorHandler");
-const { timeStamp, toJSON } = require("./plugins");
+const { timeStamp, toJSON } = require("./plugins/plugins");
 //define customer schema
-const customerSchema = mongoose.Schema({
+const customerSchema = new mongoose.Schema({
   customerProfilePic: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -92,6 +91,14 @@ const customerSchema = mongoose.Schema({
     private: true,
   },
 });
+//define instance function to verify password
+customerSchema.methods.verifyPassword = async function (password) {
+  try {
+    return await bcrypt.compare(password, this.password);
+  } catch (error) {
+    console.log(error);
+  }
+};
 //define static method to check if phone number is used or not
 customerSchema.statics.isphoneNumberUsed = async function (phoneNumber) {
   const customer = await this.findOne({ phoneNumber: phoneNumber });
@@ -109,14 +116,15 @@ customerSchema.statics.isEmailUsed = async function (CustomerEmail) {
 customerSchema.plugin(timeStamp, { schemaName: "customer" });
 customerSchema.plugin(toJSON, { schemaName: "customer" });
 // hash password before save
-customerSchema.pre(
-  "save",
-  errHandler.handleMgAsyncError(async function (next) {
+customerSchema.pre("save", async function (next) {
+  try {
     const customer = this;
     const salt = await bcrypt.genSalt(10);
     customer.password = await bcrypt.hash(customer.password, salt);
-    next();
-  })
-);
+    return next();
+  } catch (error) {
+    next(error);
+  }
+});
 const Customer = mongoose.model("Customer", customerSchema);
 module.exports = Customer;

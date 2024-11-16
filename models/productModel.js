@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Review = require("./reviewModel");
-const { timeStamp, toJSON } = require("./plugins");
+const { timeStamp, toJSON } = require("./plugins/plugins");
 //define product schema
 const productSchema = new mongoose.Schema({
   name: {

@@ -2,6 +2,7 @@ const customerRoute = require("./customerRoute");
 const productRoute = require("./productRoute");
 const reviewRoute = require("./reviewRoute");
 const searchRoute = require("./searchCustomerRoute");
+const authRoute = require("./authRoute");
 const express = require("express");
 const Router = express.Router();
 const routes = [
@@ -20,6 +21,10 @@ const routes = [
   {
     path: "/customers/search",
     route: searchRoute,
+  },
+  {
+    path: "/auth",
+    route: authRoute,
   },
 ];
 routes.forEach((route) => {

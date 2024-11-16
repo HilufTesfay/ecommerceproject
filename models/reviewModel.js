@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const { toJSON, timeStamp } = require("./plugins");
+const { toJSON, timeStamp } = require("./plugins/plugins");
 //const { timeStamp } = require("./plugins");
-const reviewSchema = mongoose.Schema({
+const reviewSchema = new mongoose.Schema({
   customer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Customer",

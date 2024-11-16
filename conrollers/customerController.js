@@ -1,5 +1,5 @@
 const { customerService } = require("../services");
-const errHandler = require("../middleware/errorHandler");
+const { errHandler } = require("../middleware");
 const { sendFailedRespons, sendSuccessfullRespons } = require("./utils");
 //define  middleware function to create new customer acount
 const createCustomer = errHandler.handleAsyncError(async (req, res) => {
@@ -18,6 +18,9 @@ const createCustomer = errHandler.handleAsyncError(async (req, res) => {
     }
     if (isPhoneUsed) {
       sendFailedRespons(res, 400, "This phone is used, please use other phone");
+    }
+    if (!ispwStrong) {
+      sendFailedRespons(res, 400, "your password is not strong");
     }
   }
 });

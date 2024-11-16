@@ -12,6 +12,7 @@ const createProduct = async (req) => {
     stock: stock,
     images: images,
   });
+  return newProduct;
 };
 //define function to update product by id
 const updateProductById = async (req) => {
@@ -39,7 +40,6 @@ const deleteProductById = async (req) => {
   if (!!result.isValidId) {
     result.deletedProduct = await Product.findByIdAndDelete(id);
   }
-  console.log("ser", result);
   return result;
 };
 //define search function

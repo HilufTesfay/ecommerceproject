@@ -1,5 +1,3 @@
-const { func, object } = require("joi");
-
 // Define function to update createdAt and updatedAt fields
 function recordTimeStamp(schema) {
   schema.pre("save", function (next) {
@@ -91,19 +89,14 @@ const toJSON = function (schema, options) {
   //set toJSON  option with custom transform function
   schema.options.toJSON = Object.assign(schema.options.toJSON || {}, {
     transform(doc, ret, options) {
-      if (options.schemaName === "customer") {
-        Object.keys(schema.paths).forEach((path) => {
-          if (
-            schema.paths[path].options &&
-            schema.paths[path].options.private
-          ) {
-            deletePrivateField(ret, path.split("."), 0);
-          }
-        });
-        //removing fields
-        delete ret.createdAt;
-        delete ret.updatedAt;
-      }
+      Object.keys(schema.paths).forEach((path) => {
+        if (schema.paths[path].options && schema.paths[path].options.private) {
+          deletePrivateField(ret, path.split("."), 0);
+        }
+      });
+      //removing fields
+      delete ret.createdAt;
+      delete ret.updatedAt;
       ret.id = ret._id.toString();
       delete ret._id;
       delete ret.__v;
