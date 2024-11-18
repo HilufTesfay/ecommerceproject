@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
-const bcrypt = require("bcryptjs");
-const { timeStamp, toJSON } = require("./plugins/plugins");
+const plugin = require("./plugins/plugins");
 //define customer schema
 const customerSchema = new mongoose.Schema({
   customerProfilePic: [
@@ -36,7 +35,6 @@ const customerSchema = new mongoose.Schema({
       validator: (value) => validator.isMobilePhone(value, "any"),
       message: "Invalid phone number.",
     },
-    default: "",
   },
   age: {
     type: Number,
@@ -91,40 +89,15 @@ const customerSchema = new mongoose.Schema({
     private: true,
   },
 });
-//define instance function to verify password
-customerSchema.methods.verifyPassword = async function (password) {
-  try {
-    return await bcrypt.compare(password, this.password);
-  } catch (error) {
-    console.log(error);
-  }
-};
-//define static method to check if phone number is used or not
-customerSchema.statics.isphoneNumberUsed = async function (phoneNumber) {
-  const customer = await this.findOne({ phoneNumber: phoneNumber });
-  const isUsed = !!customer;
-  return isUsed;
-};
-////define static method to check if email is used or not
-customerSchema.statics.isEmailUsed = async function (CustomerEmail) {
-  const customer = await this.findOne({ email: CustomerEmail });
-  const isUsed = !!customer;
-  return isUsed;
-};
 
 //add timeStamp and toJSON  plugin functions to add createAt and UpdateAt fiels
-customerSchema.plugin(timeStamp, { schemaName: "customer" });
-customerSchema.plugin(toJSON, { schemaName: "customer" });
-// hash password before save
-customerSchema.pre("save", async function (next) {
-  try {
-    const customer = this;
-    const salt = await bcrypt.genSalt(10);
-    customer.password = await bcrypt.hash(customer.password, salt);
-    return next();
-  } catch (error) {
-    next(error);
-  }
-});
+customerSchema.plugin(plugin.timeStamp, { schemaName: "customer" });
+customerSchema.plugin(plugin.toJSON, { schemaName: "customer" });
+customerSchema.plugin(plugin.addRole, { schemaName: "customer" });
+customerSchema.plugin(plugin.hashPassword);
+customerSchema.plugin(plugin.verifyPassword);
+customerSchema.plugin(plugin.isEmailUsed);
+customerSchema.plugin(plugin.isphoneNumberUsed);
+
 const Customer = mongoose.model("Customer", customerSchema);
 module.exports = Customer;

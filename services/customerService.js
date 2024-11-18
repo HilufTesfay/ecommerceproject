@@ -1,8 +1,10 @@
 const { Customer } = require("../models");
-const { find } = require("../models/productModel");
 const { isValidId } = require("./utils");
 //define function to create customer acount
 const createCustomer = async (req) => {
+  if (req.body.role) {
+    delete req.body.role;
+  }
   const result = {
     isEmailUsed: await Customer.isEmailUsed(req.body.email),
     isPhoneUsed: await Customer.isphoneNumberUsed(req.body.phoneNumber),
@@ -14,22 +16,41 @@ const createCustomer = async (req) => {
   return result;
 };
 //define function to update customer by Id
-const updateCustomerById = async (req) => {
-  const { id } = req.params;
+const updateMyAcountById = async (req) => {
+  const id = req.user.id;
   const results = {
     isValidId: isValidId(id),
-    updatedCustomer: null,
+    updatedAcount: null,
+    acount: null,
+    message: null,
   };
   const updateData = req.body;
-  if (!!results.isValidId) {
-    results.updatedCustomer = await Customer.findByIdAndUpdate(id, updateData, {
-      new: true,
-      runValidations: true,
-    });
+  if (!updateData && Object.keys(updateData).length === 0) {
+    results.message = "no data provided for update";
+    return results;
   }
+  if (!results.isValidId) {
+    results.message = "Invalid id";
+    return results;
+  }
+  results.acount = await Customer.findById(id);
+  if (!results.acount) {
+    results.message = "acount not found";
+    return results;
+  }
+  Object.keys(updateData).forEach((key) => {
+    results.acount[key] = updateData[key];
+  });
+  results.updatedAcount = await results.acount.save();
+  if (!results.updatedAcount) {
+    results.message = "unable to update acount";
+    return results;
+  }
+  results.message = "updated successfully";
   return results;
 };
-//define function to delete function by id
+
+//define function to delete customer by id
 const deleteCustomerById = async (req) => {
   const { id } = req.params;
   const results = {
@@ -40,6 +61,16 @@ const deleteCustomerById = async (req) => {
     results.deletedCustomer = await Customer.findByIdAndDelete(id);
   }
   return results;
+};
+//define function to delete acount by the customer him/her self
+const deleteMyAcount = async (req) => {
+  const result = {
+    isDeleted: false,
+    acount: null,
+  };
+  result.acount = await Customer.findByIdAndDelete(req.user.id);
+  result.isDeleted = !!result.acount;
+  return result;
 };
 //define function to get customer by id
 const getCustomerById = async (req) => {
@@ -80,10 +111,11 @@ const searchCustomerByPhoneNumber = async (phoneNumber) => {
 
 module.exports = {
   createCustomer,
-  updateCustomerById,
+  updateMyAcountById,
   getCustomers,
   getCustomerById,
   deleteCustomerById,
+  deleteMyAcount,
   searchCustomerByEmail,
   searchCustomerByPhoneNumber,
 };

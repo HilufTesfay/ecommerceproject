@@ -3,7 +3,7 @@ const session = require("express-session");
 const mongoStore = require("connect-mongo");
 const { SECRET_KEY, DBCONNECTION_URL } = require("./config/config");
 const routes = require("./routes/v1");
-const { errHandler, customerAuth } = require("./middleware");
+const { errHandler, auth } = require("./middleware");
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -14,15 +14,15 @@ app.use(
     resave: false,
     saveUninitialized: true,
     store: mongoStore.create({ mongoUrl: DBCONNECTION_URL }),
-    cookie: { maxAge: 36000000 },
+    cookie: { maxAge: 360000000 },
   })
 );
 //passport and passport-session initialization globally
-customerAuth.initialize(app);
-app.use("/v1/", routes);
-app.get("/home", customerAuth.isAuthenticatedCustomer, (req, res) => {
-  res.status(200).send("home");
+auth.initialize(app);
+app.get("/home", (req, res) => {
+  res.status(200).send("well come");
 });
+app.use("/v1/", routes);
 app.all("*", (req, res, next) => {
   const err = new errHandler.CustomError(
     `${req.originalUrl} is not found`,

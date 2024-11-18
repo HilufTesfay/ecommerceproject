@@ -53,7 +53,22 @@ const getReviews = errHandler.handleAsyncError(async (req, res) => {
     sendFailedRespons(res, 404, "no reviews found");
   }
 });
+const deleteReview = errHandler.handleAsyncError(async (req, res, next) => {
+  const { isValidId, isDeleted, deletedReview } =
+    await reviewService.deleteReviewById(req);
+  if (!!deletedReview && isDeleted) {
+    sendSuccessfullRespons(
+      res,
+      200,
+      "Review deleted successfully",
+      deleteReview
+    );
+  } else {
+    sendFailedRespons(res, 400, `no review found with id ${req.params.id}`);
+  }
+});
 module.exports = {
   addCustomerReviews,
   getReviews,
+  deleteReview,
 };

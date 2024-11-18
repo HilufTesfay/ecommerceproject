@@ -1,4 +1,5 @@
 const { Review, Customer, Product } = require("../models");
+const { isValidId } = require("./utils");
 //define function that calculates average ratings
 const calculateAverageRatings = (prevAvgRating, prevCount, curreRating) => {
   let totallPrevRating = prevAvgRating * prevCount;
@@ -70,4 +71,15 @@ const getReviews = async () => {
   }
   return results;
 };
-module.exports = { addCustomerReviews, getReviews };
+const deleteReviewById = async (req) => {
+  const { id } = req.params;
+  const result = {
+    isValidId: isValidId(id),
+    isDeleted: false,
+    deletedReview: null,
+  };
+  result.deletedReview = await Review.findByIdAndDelete(id);
+  result.isDeleted = !!result.deletedReview;
+  return result;
+};
+module.exports = { addCustomerReviews, getReviews, deleteReviewById };
