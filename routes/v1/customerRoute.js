@@ -4,7 +4,7 @@ const { auth, validate } = require("../../middleware");
 const { customer } = require("../../conrollers");
 const { customerValidation } = require("../../validations");
 Router.route("/")
-  .post(validate(customerValidation.createUser), customer.createCustomer)
+  .post(validate(customerValidation.createUser), customer.createCustomer) //post v1/customers api to register user as customer
   .get(
     auth.authorize("getUsers"),
     auth.isAuthenticatedUser,
