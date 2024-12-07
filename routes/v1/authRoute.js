@@ -9,7 +9,10 @@ Router.route("/register").post(
 );
 Router.route("/login")
   .get(auth.sendLoginForm)
-  .post(validate(authValidation.logInUser), auth.logInUser);
-Router.route("/logout").post(auth.logOutUser);
-Router.route("/refresh-token").get(auth.refreshAuth);
+  .post(validate(authValidation.logIn), auth.logInUser);
+Router.route("/logout").post(validate(authValidation.logout), auth.logOutUser);
+Router.route("/refresh-token").get(
+  validate(authValidation.refreshToken),
+  auth.refreshAuth
+);
 module.exports = Router;
