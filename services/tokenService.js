@@ -4,12 +4,13 @@ const config = require("../config/config");
 const { tokenTypes } = require("../config/tokens");
 const { Token } = require("../models");
 //define function to generate token
-const generateToken = (userId, expires, tokenType) => {
+const generateToken = (userId, userRole, expires, tokenType) => {
   const payload = {
     sub: userId,
     type: tokenType,
     iat: moment().unix(),
     exp: expires.unix(),
+    role: userRole,
   };
   return jwt.sign(payload, config.SECRET_KEY);
 };
@@ -27,7 +28,6 @@ const saveToken = async (token, userid, type, expires, blacklisted = false) => {
 //define function to verify token
 const verifyToken = async (token, type) => {
   const payload = jwt.verify(token, config.SECRET_KEY);
-  console.log(payload.sub);
   const tokenDoc = await Token.findOne({
     token: token,
     user: payload.sub,
@@ -40,17 +40,23 @@ const verifyToken = async (token, type) => {
   return tokenDoc;
 };
 //define function to generate auth token
-const generateAuthToken = async (userId) => {
+const generateAuthToken = async (userId, userRole) => {
   const accessExpires = moment().add(
     config.ACCESS_EXPIRATION_MINUTES,
     "minutes"
   );
-  const accessToken = generateToken(userId, accessExpires, tokenTypes.ACCESS);
+  const accessToken = generateToken(
+    userId,
+    accessExpires,
+    tokenTypes.ACCESS,
+    userRole
+  );
   const refreshExpires = moment().add(config.REFRESH_EXPIRATION_DAYS, "days");
   const refreshToken = generateToken(
     userId,
     refreshExpires,
-    tokenTypes.REFRESH
+    tokenTypes.REFRESH,
+    userRole
   );
   const tokenDoc = await saveToken(
     refreshToken,

@@ -1,21 +1,21 @@
 const { customerService } = require("../services");
-const { errHandler, auth } = require("../middleware");
-const { sendFailedRespons, sendSuccessfullRespons } = require("./utils");
+const { tokenService } = require("../services");
+const { errHandler } = require("../middleware");
+const { sendFailedRespons } = require("./utils");
 //define  middleware function to create new customer acount
 const createCustomer = errHandler.handleAsyncError(async (req, res) => {
   const { isPhoneUsed, isEmailUsed, newCustomer } =
     await customerService.createCustomer(req);
   if (!isEmailUsed && !isPhoneUsed && !!newCustomer) {
-    const isSessCreated = await auth.createSession(req, newCustomer);
-    sendSuccessfullRespons(
-      res,
-      201,
-      "congratulation!,you have created your acount successfully:",
-      newCustomer
+    const tokens = tokenService.generateAuthToken(
+      newCustomer.id,
+      newCustomer.role
     );
+    const message = "login successfully";
+    res.status(200).json(message, tokens);
   } else {
     if (isEmailUsed) {
-      sendFailedRespons(res, 400, "This Email is used, please use other email");
+      sendFailedRespons(rs, 400, "This Email is used, please use other email");
       return 0;
     }
     if (isPhoneUsed) {

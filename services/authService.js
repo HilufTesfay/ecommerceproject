@@ -1,4 +1,4 @@
-const { Token } = require("../models");
+const { Token, Customer } = require("../models");
 const tokenService = require("./tokenService");
 const { tokenTypes } = require("../config/tokens");
 const { getCustomerByEmail, getCustomerById } = require("./customerService");
@@ -8,14 +8,13 @@ const logInWithEmailAndPassword = async (email, password) => {
     user: null,
     message: null,
   };
-  const user = await getCustomerByEmail(email);
+  result.user = await getCustomerByEmail(email);
   const isMatch = await user.verifyPassword(password);
-  if (!user || !isMatch) {
+  if (!result.user || !isMatch) {
     result.message = "In correct email or password";
     return result;
   }
   result.message = "login successfully";
-  result.user = user;
   return result;
 };
 //define function logout
@@ -30,6 +29,9 @@ const logOut = async (refreshToken) => {
     return message;
   }
   await Token.deleteOne({ token: tokenDoc.token });
+  if (req.user) {
+    delete req.user;
+  }
   message = "log out successfullly";
   return message;
 };
@@ -47,11 +49,24 @@ const refreshToken = async (refreshToken) => {
     throw new Error("user not exist");
   }
   await Token.deleteOne({ token: tokenDoc.token });
-  return await tokenService.generateAuthToken(user.id);
+  return await tokenService.generateAuthToken(user.id, user.role);
+};
+const register = async (req) => {
+  req.body.role = "admin";
+  const result = {
+    isEmailUsed: await Customer.isEmailUsed(req.body.email),
+    isPhoneUsed: await Customer.isphoneNumberUsed(req.body.phoneNumber),
+    newAdmin: null,
+  };
+  if (!result.isEmailUsed && !result.isPhoneUsed) {
+    result.newAdmin = await Customer.create(req.body);
+  }
+  return result;
 };
 
 module.exports = {
   logInWithEmailAndPassword,
   logOut,
   refreshToken,
+  register,
 };

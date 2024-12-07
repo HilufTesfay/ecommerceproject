@@ -2,7 +2,26 @@ const { authService } = require("../services");
 const { errHandler } = require("../middleware");
 const { tokenService } = require("../services");
 const { sendFailedRespons } = require("./utils");
-
+//define register middleware
+const registerAdmin = errHandler.handleAsyncError(async (req, res) => {
+  const { isPhoneUsed, isEmailUsed, newAdmin } = await authService.register(
+    req
+  );
+  if (!isEmailUsed && !isPhoneUsed && !!newAdmin) {
+    const tokens = tokenService.generateAuthToken(newAdmin.id, newAdmin.role);
+    const message = "login successfully";
+    res.status(200).json(message, tokens);
+  } else {
+    if (isEmailUsed) {
+      sendFailedRespons(rs, 400, "This Email is used, please use other email");
+      return 0;
+    }
+    if (isPhoneUsed) {
+      sendFailedRespons(res, 400, "This phone is used, please use other phone");
+      return 0;
+    }
+  }
+});
 //define login middleware
 const logInUser = errHandler.handleAsyncError(async (req, res) => {
   const { email, password } = req.body;
@@ -11,8 +30,8 @@ const logInUser = errHandler.handleAsyncError(async (req, res) => {
     password
   );
   req.user = user;
-  const token = await tokenService.generateAuthToken(user.id);
-
+  console.log("con-user", req.user);
+  const token = await tokenService.generateAuthToken(user.id, user.role);
   return res.status(200).json({
     message,
     token,
@@ -45,4 +64,10 @@ const sendLoginForm = (req, res, next) => {
     password: "password",
   });
 };
-module.exports = { logInUser, logOutUser, refreshAuth, sendLoginForm };
+module.exports = {
+  logInUser,
+  logOutUser,
+  refreshAuth,
+  registerAdmin,
+  sendLoginForm,
+};

@@ -4,8 +4,12 @@ const { auth, validate } = require("../../middleware");
 const { customer } = require("../../conrollers");
 const { customerValidation } = require("../../validations");
 Router.route("/")
-  .get(auth.authorize("admin"), auth.isAuthenticatedUser, customer.getCustomers) //get v1/customers api to get all customers
-  .post(validate(customerValidation.createUser), customer.createCustomer); // post v1/customers api to create customer acount
+  .post(validate(customerValidation.createUser), customer.createCustomer)
+  .get(
+    // auth.authorize("admin"),
+    auth.isAuthenticatedUser,
+    customer.getCustomers
+  ); //get v1/customers api to get all customers
 
 Router.route("/ac/profile")
   .get(

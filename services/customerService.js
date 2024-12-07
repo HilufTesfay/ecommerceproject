@@ -2,9 +2,7 @@ const { Customer } = require("../models");
 const { isValidId } = require("./utils");
 //define function to create customer acount
 const createCustomer = async (req) => {
-  if (req.body.role) {
-    delete req.body.role;
-  }
+  req.body.role = "user";
   const result = {
     isEmailUsed: await Customer.isEmailUsed(req.body.email),
     isPhoneUsed: await Customer.isphoneNumberUsed(req.body.phoneNumber),
