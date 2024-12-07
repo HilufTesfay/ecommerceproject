@@ -5,14 +5,14 @@ const { reviewValidation } = require("../../validations");
 const Router = express.Router();
 Router.route("/")
   .post(
-    auth.authorize("customer"),
+    auth.authorize("addReview"),
     auth.isAuthenticatedUser,
     validate(reviewValidation.addCustomerReview),
     review.addCustomerReviews
   ) // post v1/products/reviews api to publish review
   .get(auth.isAuthenticatedUser, review.getReviews); //get v1/products/reviews api to get all reviews
 Router.route("/:id").delete(
-  auth.authorize("admin"),
+  auth.authorize("addReview"),
   auth.isAuthenticatedUser,
   validate(reviewValidation.deleteReview),
   review.deleteReview

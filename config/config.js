@@ -1,6 +1,5 @@
 const path = require("path");
 const dotenv = require("dotenv");
-const { errHandler } = require("../middleware");
 dotenv.config({ path: path.join(__dirname, "../.env") });
 const { envSchema } = require("../validations");
 const { value: envVars, error } = envSchema

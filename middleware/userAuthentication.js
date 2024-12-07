@@ -1,4 +1,5 @@
 const { tokenService } = require("../services");
+const { roleRights } = require("../config/roles");
 //define function that ensures if customer or admin is authenticated
 const isAuthenticatedUser = (req, res, next) => {
   const { isValidToken } = tokenService.isAuthenticatedToken(req);
@@ -10,9 +11,14 @@ const isAuthenticatedUser = (req, res, next) => {
 };
 
 //define function to autherize customer based on role
-const authorize = (role) => {
+const authorize = (...requiredRights) => {
   return (req, res, next) => {
-    if (req.user && req.user.role === role) {
+    const { userRole, isValidToken } = tokenService.isAuthenticatedToken(req);
+    const userRights = roleRights.get(userRole);
+    const hasRight = requiredRights.every((right) =>
+      userRights.includes(right)
+    );
+    if (!!hasRight && !!isValidToken) {
       return next();
     }
     return res.status(403).send("you are not authorized to access this api");

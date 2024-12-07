@@ -6,20 +6,20 @@ const Router = express.Router();
 Router.route("/")
   .get(product.getProducts) // get v1/products/ api to get products
   .post(
-    auth.authorize("admin"),
+    auth.authorize("manageProducts"),
     auth.isAuthenticatedUser,
     validate(productValidation.createProduct),
     product.createProduct
   ); //post  v1/products/ api to create products
 Router.route("/:id")
   .delete(
-    auth.authorize("admin"),
+    auth.authorize("manageProducts"),
     auth.isAuthenticatedUser,
     validate(productValidation.deleteProduct),
     product.deleteProduct
   ) // delete v1/products/id api to delete product
   .put(
-    auth.authorize("admin"),
+    auth.authorize("manageProducts"),
     auth.isAuthenticatedUser,
     validate(productValidation.updateProduct),
     product.updateProduct
