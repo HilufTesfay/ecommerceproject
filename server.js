@@ -12,7 +12,7 @@ const server = app.listen(port, () => {
 const handleExit = () => {
   if (server) {
     server.close(() => {
-      console.log("sever is shutting douw");
+      console.log("sever is shutting down");
       process.exit(0);
     });
   } else {

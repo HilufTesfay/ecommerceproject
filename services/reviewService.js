@@ -8,7 +8,9 @@ const calculateAverageRatings = (prevAvgRating, prevCount, curreRating) => {
 };
 //define function to add customer reviews
 const addCustomerReviews = async (req) => {
-  const { customerId, productId, comment, rating } = req.body;
+  const { comment, rating } = req.body;
+  const productId = req.params.id;
+  const customerId = req.user.id;
   const results = {
     isProductFound: false,
     hasCustomerAcount: false,

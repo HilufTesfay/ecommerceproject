@@ -1,7 +1,7 @@
 const express = require("express");
 const session = require("express-session");
 const mongoStore = require("connect-mongo");
-const { SECRET_KEY, DBCONNECTION_URL } = require("./config/config");
+const config = require("./config/config");
 const routes = require("./routes/v1");
 const { errHandler, auth } = require("./middleware");
 const app = express();
@@ -10,10 +10,10 @@ app.use(express.json());
 //session middleware
 app.use(
   session({
-    secret: SECRET_KEY,
+    secret: config.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
-    store: mongoStore.create({ mongoUrl: DBCONNECTION_URL }),
+    store: mongoStore.create({ mongoUrl: config.DBCONNECTION_URL }),
     cookie: { maxAge: 360000000 },
   })
 );

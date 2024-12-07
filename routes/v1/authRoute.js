@@ -1,8 +1,12 @@
 const express = require("express");
-const { auth } = require("../../middleware");
-const { customer } = require("../../conrollers");
+const { validate } = require("../../middleware");
+const { authValidation } = require("../../validations");
+const { auth } = require("../../conrollers");
 const Router = express.Router();
 
-Router.route("/login").get(customer.sendLoginForm).post(auth.authenticateUser);
-Router.route("/logout").post(auth.isAuthenticatedUser, auth.logOut);
+Router.route("/login")
+  .get(auth.sendLoginForm)
+  .post(validate(authValidation.logInUser), auth.logInUser);
+Router.route("/logout").post(auth.logOutUser);
+Router.route("/refresh-token").get(auth.refreshAuth);
 module.exports = Router;

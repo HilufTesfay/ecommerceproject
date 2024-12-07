@@ -4,10 +4,10 @@ const { isValidId } = require("./utils");
 const createProduct = async (req) => {
   const { name, description, price, category, brand, stock, images } = req.body;
   const newProduct = await Product.create({
-    name: name.trim(),
-    description: description.trim(),
+    name: name,
+    description: description,
     price: price,
-    category: category.trim(),
+    category: category,
     brand: brand,
     stock: stock,
     images: images,

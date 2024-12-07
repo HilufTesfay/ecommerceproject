@@ -31,12 +31,14 @@ function handleDevError(err, res) {
 }
 //define error handeler at production stage
 function handleProdError(err, res) {
-  if (err.isOperational === true) {
+  if (err.isOperational) {
     res.status(err.statusCode).json({
       status: err.status,
       message: err.message,
     });
   } else {
+    console.log(err.name);
+    console.log(err);
     res.status(500).json({
       status: "error",
       message: "something went wrong! please try again",
@@ -45,8 +47,9 @@ function handleProdError(err, res) {
 }
 //define cast error handler function
 function handleCastError(err) {
-  const key = Object.keyValue(err.errors);
-  const msg = `In valid input ${err.value} for ${key.path}`;
+  const key = Object.keys(err.errors);
+  console.log(key);
+  const msg = `In valid input for ${key.path}`;
   return new CustomError(msg, 400);
 }
 // define mongoose validation error handler function
@@ -54,6 +57,7 @@ const handleValidationError = (err) => {
   const errMesssage = Object.values(err.errors).map((val) => val.message);
   let joinedmsg = errMesssage.join(", ");
   let msg = `invalid input,${joinedmsg}`;
+
   return new CustomError(msg, 400);
 };
 //define duplicate key handler function

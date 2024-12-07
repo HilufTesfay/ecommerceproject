@@ -1,9 +1,21 @@
 const path = require("path");
 const dotenv = require("dotenv");
+const { errHandler } = require("../middleware");
 dotenv.config({ path: path.join(__dirname, "../.env") });
+const { envSchema } = require("../validations");
+const { value: envVars, error } = envSchema
+  .prefs({ errors: { label: "key" } })
+  .validate(process.env);
+if (error) {
+  // const errorMessage = new errHandler.CustomError("system errror", 500);
+  throw new Error(`Config validation error: ${error.message}`);
+}
+
 module.exports = {
-  PORT: process.env.PORT,
-  DBCONNECTION_URL: process.env.DBCONNECTION_URL,
-  ENV: process.env.NODE_ENV,
-  SECRET_KEY: process.env.SECRET_KEY,
+  PORT: envVars.PORT,
+  DBCONNECTION_URL: envVars.DBCONNECTION_URL,
+  ENV: envVars.NODE_ENV,
+  SECRET_KEY: envVars.SECRET_KEY,
+  ACCESS_EXPIRATION_MINUTES: envVars.ACCESS_EXPIRATION_MINUTES,
+  REFRESH_EXPIRATION_DAYS: envVars.REFRESH_EXPIRATION_DAYS,
 };

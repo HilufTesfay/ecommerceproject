@@ -144,7 +144,7 @@ const verifyPassword = function (schema) {
     try {
       return await bcrypt.compare(password, this.password);
     } catch (error) {
-      console.log(error);
+      next(error);
     }
   };
 };

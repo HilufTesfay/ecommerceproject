@@ -22,9 +22,6 @@ const createCustomer = errHandler.handleAsyncError(async (req, res) => {
       sendFailedRespons(res, 400, "This phone is used, please use other phone");
       return 0;
     }
-    /*if (!ispwStrong) {
-      sendFailedRespons(res, 400, "your password is not strong");
-    }*/
   }
 });
 //define middleware function to delete customer
@@ -66,11 +63,9 @@ const updateMyAcount = errHandler.handleAsyncError(async (req, res) => {
 });
 // define middleware function to get customer by id
 const getCustomer = errHandler.handleAsyncError(async (req, res) => {
-  const { isValidId, customer } = await customerService.getCustomerById(req);
+  const customer = await customerService.getCustomerById(req.params.id);
   if (!!customer) {
     sendSuccessfullRespons(res, 201, "customer", customer);
-  } else if (!isValidId) {
-    sendFailedRespons(res, 400, "invalid id");
   } else {
     sendFailedRespons(res, 400, `no customer found with ${req.params.id}`);
   }
@@ -104,13 +99,7 @@ const searchByPhone = errHandler.handleAsyncError(async (req, res) => {
     sendFailedRespons(res, 404, "no customer found");
   }
 });
-const sendLoginForm = (req, res, next) => {
-  res.status(200).json({
-    message: "login with your email and password",
-    email: "email",
-    password: "password",
-  });
-};
+
 // define function to get customer profile
 const getMyProfile = (req, res, next) => {
   res.status(200).json({
@@ -126,7 +115,6 @@ module.exports = {
   getCustomers,
   searchByEmail,
   searchByPhone,
-  sendLoginForm,
   deleteMyAcount,
   getMyProfile,
 };

@@ -1,0 +1,72 @@
+const jwt = require("jsonwebtoken");
+const moment = require("moment");
+const config = require("../config/config");
+const { tokenTypes } = require("../config/tokens");
+const { Token } = require("../models");
+//define function to generate token
+const generateToken = (userId, expires, tokenType) => {
+  const payload = {
+    sub: userId,
+    type: tokenType,
+    iat: moment().unix(),
+    exp: expires.unix(),
+  };
+  return jwt.sign(payload, config.SECRET_KEY);
+};
+//define function to save token to database
+const saveToken = async (token, userid, type, expires, blacklisted = false) => {
+  const tokenDoc = await Token.create({
+    token: token,
+    user: userid,
+    type: type,
+    expires: expires.toDate(),
+    blacklisted: blacklisted,
+  });
+  return tokenDoc;
+};
+//define function to verify token
+const verifyToken = async (token, type) => {
+  const payload = jwt.verify(token, config.SECRET_KEY);
+  console.log(payload.sub);
+  const tokenDoc = await Token.findOne({
+    token: token,
+    user: payload.sub,
+    type: type,
+    blacklisted: false,
+  });
+  if (!tokenDoc) {
+    throw new Error("token not found");
+  }
+  return tokenDoc;
+};
+//define function to generate auth token
+const generateAuthToken = async (userId) => {
+  const accessExpires = moment().add(
+    config.ACCESS_EXPIRATION_MINUTES,
+    "minutes"
+  );
+  const accessToken = generateToken(userId, accessExpires, tokenTypes.ACCESS);
+  const refreshExpires = moment().add(config.REFRESH_EXPIRATION_DAYS, "days");
+  const refreshToken = generateToken(
+    userId,
+    refreshExpires,
+    tokenTypes.REFRESH
+  );
+  const tokenDoc = await saveToken(
+    refreshToken,
+    userId,
+    tokenTypes.REFRESH,
+    refreshExpires,
+    false
+  );
+  return {
+    accessToken: accessToken,
+    refreshToken: refreshToken,
+  };
+};
+module.exports = {
+  generateToken,
+  generateAuthToken,
+  saveToken,
+  verifyToken,
+};

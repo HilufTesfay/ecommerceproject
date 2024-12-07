@@ -31,10 +31,6 @@ const customerSchema = new mongoose.Schema({
     type: String,
     required: [true, "phone number is required"],
     unique: [true, "Phone number is already in use."],
-    validate: {
-      validator: (value) => validator.isMobilePhone(value, "any"),
-      message: "Invalid phone number.",
-    },
   },
   age: {
     type: Number,
@@ -82,10 +78,6 @@ const customerSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    validate: {
-      validator: (value) => validator.isStrongPassword(value),
-      message: "your password is not Strong",
-    },
     private: true,
   },
 });

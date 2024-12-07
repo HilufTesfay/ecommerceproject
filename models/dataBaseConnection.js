@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const dotenv = require("dotenv").config("../.env");
 //This function connects to data base
 function connectToDb(dbServer) {
   mongoose

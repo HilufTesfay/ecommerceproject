@@ -6,7 +6,6 @@ const productSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Product name is required"],
-    trim: true,
   },
   description: {
     type: String,
@@ -59,9 +58,5 @@ const productSchema = new mongoose.Schema({
 
 productSchema.plugin(timeStamp, { schemaName: "product" });
 productSchema.plugin(toJSON);
-productSchema.pre("save", function (next) {
-  this.lastUpdated = Date.now();
-  next();
-});
 const Product = mongoose.model("Product", productSchema);
 module.exports = Product;

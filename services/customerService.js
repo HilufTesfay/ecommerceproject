@@ -73,17 +73,11 @@ const deleteMyAcount = async (req) => {
   return result;
 };
 //define function to get customer by id
-const getCustomerById = async (req) => {
-  const { id } = req.params;
-  const results = {
-    isValidId: isValidId(id),
-    customer: null,
-  };
-  if (!!results.isValidId) {
-    results.customer = await Customer.findById(id);
-  }
-  return results;
+const getCustomerById = async (id) => {
+  const customer = await Customer.findById(id);
+  return customer;
 };
+
 //define function to get all customers
 const getCustomers = async () => {
   const results = {
@@ -109,6 +103,12 @@ const searchCustomerByPhoneNumber = async (phoneNumber) => {
   return customer;
 };
 
+//define function to get customer by email
+const getCustomerByEmail = async (email) => {
+  let customer = null;
+  customer = await Customer.findOne({ email: email });
+  return customer;
+};
 module.exports = {
   createCustomer,
   updateMyAcountById,
@@ -118,4 +118,5 @@ module.exports = {
   deleteMyAcount,
   searchCustomerByEmail,
   searchCustomerByPhoneNumber,
+  getCustomerByEmail,
 };
