@@ -70,9 +70,28 @@ const generateAuthToken = async (userId, userRole) => {
     refreshToken: refreshToken,
   };
 };
+const isAuthenticatedToken = async (req) => {
+  const result = {
+    isValidToken: false,
+    userRole: "user",
+  };
+  const authHeader = req.headers["authorization"];
+  const accessToken = authHeader && authHeader.split(" ")[1];
+  if (!accessToken) {
+    return result;
+  }
+  const payload = jwt.verify(accessToken, config.SECRET_KEY);
+  if (!payload) {
+    return result;
+  }
+  result.isValidToken = true;
+  result.userRole = payload.role;
+  return result;
+};
 module.exports = {
   generateToken,
   generateAuthToken,
   saveToken,
   verifyToken,
+  isAuthenticatedToken,
 };

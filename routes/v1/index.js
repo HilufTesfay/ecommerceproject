@@ -3,7 +3,6 @@ const productRoute = require("./productRoute");
 const reviewRoute = require("./reviewRoute");
 const searchRoute = require("./searchCustomerRoute");
 const authRoute = require("./authRoute");
-const adminRoute = require("./adminRoute");
 const express = require("express");
 const Router = express.Router();
 const routes = [
@@ -26,10 +25,6 @@ const routes = [
   {
     path: "/auth",
     route: authRoute,
-  },
-  {
-    path: "/admin",
-    route: adminRoute,
   },
 ];
 routes.forEach((route) => {

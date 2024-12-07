@@ -1,6 +1,8 @@
+const { tokenService } = require("../services");
 //define function that ensures if customer or admin is authenticated
 const isAuthenticatedUser = (req, res, next) => {
-  if (!req.user) {
+  const { isValidToken } = tokenService.isAuthenticatedToken(req);
+  if (!req.user || !isValidToken) {
     console.log("user is not authenticated, redirecting to login.");
     return res.redirect("/v1/auth/login");
   }
