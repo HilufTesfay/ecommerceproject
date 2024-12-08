@@ -59,7 +59,7 @@ const customerSchema = new mongoose.Schema({
       message: (props) => `${props.value} is not valid email`,
     },
   },
-  addres: {
+  address: {
     type: Object,
     region: {
       type: [String, "please enter valid address"],

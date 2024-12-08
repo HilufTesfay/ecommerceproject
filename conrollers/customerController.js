@@ -7,15 +7,17 @@ const createCustomer = errHandler.handleAsyncError(async (req, res) => {
   const { isPhoneUsed, isEmailUsed, newCustomer } =
     await customerService.createCustomer(req);
   if (!isEmailUsed && !isPhoneUsed && !!newCustomer) {
-    const tokens = tokenService.generateAuthToken(
+    const tokens = await tokenService.generateAuthToken(
       newCustomer.id,
       newCustomer.role
     );
+    req.user = newCustomer;
+    console.log(req.user);
     const message = "login successfully";
     res.status(200).json({ message, tokens });
   } else {
     if (isEmailUsed) {
-      sendFailedRespons(rs, 400, "This Email is used, please use other email");
+      sendFailedRespons(res, 400, "This Email is used, please use other email");
       return 0;
     }
     if (isPhoneUsed) {
@@ -103,6 +105,7 @@ const searchByPhone = errHandler.handleAsyncError(async (req, res) => {
 // define function to get customer profile
 const getMyProfile = (req, res, next) => {
   res.status(200).json({
+    message: "ur profile",
     user: req.user,
   });
 };

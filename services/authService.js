@@ -9,7 +9,7 @@ const logInWithEmailAndPassword = async (email, password) => {
     message: null,
   };
   result.user = await getCustomerByEmail(email);
-  const isMatch = await user.verifyPassword(password);
+  const isMatch = await result.user.verifyPassword(password);
   if (!result.user || !isMatch) {
     result.message = "In correct email or password";
     return result;
@@ -29,10 +29,7 @@ const logOut = async (refreshToken) => {
     return message;
   }
   await Token.deleteOne({ token: tokenDoc.token });
-  if (req.user) {
-    delete req.user;
-  }
-  message = "log out successfullly";
+  message = "logout successfullly";
   return message;
 };
 //define function to refresh token

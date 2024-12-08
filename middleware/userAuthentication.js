@@ -1,9 +1,9 @@
 const { tokenService } = require("../services");
 const { roleRights } = require("../config/roles");
 //define function that ensures if customer or admin is authenticated
-const isAuthenticatedUser = (req, res, next) => {
-  const { isValidToken } = tokenService.isAuthenticatedToken(req);
-  if (!req.user || !isValidToken) {
+const isAuthenticatedUser = async (req, res, next) => {
+  const { isValidToken } = await tokenService.isAuthenticatedToken(req);
+  if (!isValidToken) {
     console.log("user is not authenticated, redirecting to login.");
     return res.redirect("/v1/auth/login");
   }
@@ -12,16 +12,21 @@ const isAuthenticatedUser = (req, res, next) => {
 
 //define function to autherize customer based on role
 const authorize = (...requiredRights) => {
-  return (req, res, next) => {
-    const { userRole, isValidToken } = tokenService.isAuthenticatedToken(req);
-    const userRights = roleRights.get(userRole);
-    const hasRight = requiredRights.every((right) =>
-      userRights.includes(right)
+  return async (req, res, next) => {
+    const { userRole, isValidToken } = await tokenService.isAuthenticatedToken(
+      req
     );
-    if (!!hasRight && !!isValidToken) {
-      return next();
+    if (!isValidToken) {
+      return res.status(403).send("Inavalid token");
     }
-    return res.status(403).send("you are not authorized to access this api");
+    const userRights = roleRights.get(userRole);
+    const hasRight = requiredRights.every((right) => {
+      return userRights.includes(right);
+    });
+    if (!hasRight) {
+      return res.status(403).send("you are not authorized to access this api");
+    }
+    return next();
   };
 };
 module.exports = {

@@ -14,7 +14,7 @@ Router.route("/")
 Router.route("/ac/profile")
   .get(
     auth.isAuthenticatedUser,
-    auth.authorize("managePofile"),
+    auth.authorize("manageProfile"),
     customer.getMyProfile
   ) // get v1/customers/ac/profile api to get profile
   .delete(
