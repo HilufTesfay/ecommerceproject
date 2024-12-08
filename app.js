@@ -2,7 +2,7 @@ const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
 const compression = require("compression");
-const xss = require("xss-clean");
+//const xss = require("xss-clean");
 const mongoSanitize = require("express-mongo-sanitize");
 const routes = require("./routes/v1");
 const { handleGlobalError, authLimit } = require("./middleware");
@@ -14,7 +14,7 @@ app.use(helmet);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 //sanitize input data
-app.use(xss());
+//app.use(xss());
 app.use(mongoSanitize());
 //gzip compression
 app.use(compression());

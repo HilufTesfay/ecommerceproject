@@ -8,7 +8,7 @@ const createUser = {
   body: joi.object().keys({
     firstName: joi.string().min(1).max(30).required(),
     lastName: joi.string().min(1).max(30).required(),
-    phoneNumber: joi.string().custom(validatePhone).required(),
+    phoneNumber: joi.string().required().custom(validatePhone),
     age: joi.number().integer().min(18).max(100).required(),
     email: joi.string().email().required(),
     role: joi.string().valid("user", "admin"),
@@ -16,7 +16,7 @@ const createUser = {
       region: joi.string().min(1).max(30),
       city: joi.string().min(1).max(30),
     }),
-    password: joi.string().custom(validatePassword).required(),
+    password: joi.string().required().custom(validatePassword),
   }),
 };
 const deleteCustomer = {

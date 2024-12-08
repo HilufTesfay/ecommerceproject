@@ -2,7 +2,7 @@ const joi = require("joi");
 const envSchema = joi
   .object()
   .keys({
-    PORT: joi.number().default(5000).required(),
+    PORT: joi.number().required().default(5000),
     NODE_ENV: joi
       .string()
       .default("production")

@@ -6,56 +6,86 @@ const calculateAverageRatings = (prevAvgRating, prevCount, curreRating) => {
   let curreAvgRating = (totallPrevRating + curreRating) / (prevCount + 1);
   return curreAvgRating;
 };
-//define function to add customer reviews
+//define function to check customer acount
+const checkCustomerAccount = async (customerId) => {
+  const customer = await Customer.findById(customerId);
+  return !!customer;
+};
+//define function to check if product is available
+const checkProduct = async (productId) => {
+  const product = await Product.findById(productId);
+  return product;
+};
+//define function to create review
+const createReview = async (customerId, productId, rating, comment) => {
+  const review = {
+    customer: customerId,
+    product: productId,
+    ...(rating && { rating: rating }),
+    ...(comment && { comment: comment, date: new Date() }),
+  };
+
+  return await Review.create(review);
+};
+//deefine function to update product ratings
+const updateProductRatings = async (product, review) => {
+  const prevAvgRating = product.ratings.average;
+  const prevCount = product.ratings.count;
+  const currentRating = review.rating;
+
+  product.ratings.average = calculateAverageRatings(
+    parseFloat(prevAvgRating),
+    parseInt(prevCount),
+    parseInt(currentRating)
+  );
+  product.ratings.count += 1;
+  product.reviews = review.id;
+
+  await product.save();
+};
+//define function to add customer review
 const addCustomerReviews = async (req) => {
   const { comment, rating } = req.body;
   const productId = req.params.id;
   const customerId = req.user.id;
+
   const results = {
     isProductFound: false,
     hasCustomerAcount: false,
     isReviewEmpty: true,
     customerReview: null,
   };
-  const review = {};
-  if (customerId && productId && (rating || comment)) {
-    const customer = await Customer.findById(customerId);
-    if (!!customer) {
-      review.customer = customerId;
-      results.hasCustomerAcount = true;
-      const product = await Product.findById(productId);
-      if (product) {
-        results.isProductFound = true;
-        review.product = productId;
-        if (rating) {
-          review.rating = rating;
-        }
-        if (comment) {
-          review.comment = comment;
-          review.comment.date = Date.now();
-        }
-        if (review.rating || review.comment) {
-          results.isReviewEmpty = false;
-          results.customerReview = await Review.create(review);
-          if (!!review.rating && !!results.customerReview) {
-            const prevAvgRating = product.ratings.average;
-            const prevCount = product.ratings.count;
-            const currentRating = review.rating;
-            product.ratings.average = calculateAverageRatings(
-              parseFloat(prevAvgRating),
-              parseInt(prevCount),
-              parseInt(currentRating)
-            );
-            product.ratings.count = product.ratings.count + 1;
-            product.reviews = results.customerReview.id;
-            const updatedProduct = await product.save();
-          }
-        }
-      }
-    }
+
+  if (!(customerId && productId && (rating || comment))) {
+    return results;
   }
+
+  const hasCustomerAccount = await checkCustomerAccount(customerId);
+  if (!hasCustomerAccount) {
+    return results;
+  }
+  results.hasCustomerAcount = true;
+
+  const product = await checkProduct(productId);
+  if (!product) {
+    return results;
+  }
+  results.isProductFound = true;
+
+  const review = await createReview(customerId, productId, rating, comment);
+  if (!review) {
+    return results;
+  }
+  results.isReviewEmpty = false;
+  results.customerReview = review;
+
+  if (review.rating) {
+    await updateProductRatings(product, review);
+  }
+
   return results;
 };
+
 // defeine function to get all reviews including
 const getReviews = async () => {
   const results = {

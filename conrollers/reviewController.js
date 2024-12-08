@@ -4,41 +4,39 @@ const { sendSuccessfullRespons, sendFailedRespons } = require("./utils");
 //define function to check eligibilty of the customer,if the product is found in the database
 const checkReview = (
   isProductFound,
-  hasCustomerAcount,
+  hasCustomerAccount,
   isReviewEmpty,
   customerReview
 ) => {
-  if (hasCustomerAcount) {
-    if (isProductFound) {
-      if (!isReviewEmpty) {
-        if (!!customerReview) {
-          sendSuccessfullRespons(
-            res,
-            201,
-            "submitted successfully",
-            customerReview
-          );
-        } else {
-          sendFailedRespons(
-            res,
-            400,
-            "unable to submit your review,please try again"
-          );
-        }
-      } else {
-        sendFailedRespons(res, 400, "no review to submit");
-      }
-    } else {
-      sendFailedRespons(
-        res,
-        400,
-        `no product with id > ${req.body.productId} found`
-      );
-    }
-  } else {
-    sendFailedRespons(res, 400, "You have to create Acount");
+  if (!hasCustomerAccount) {
+    return sendFailedRespons(res, 400, "You have to create an account");
   }
+  if (!isProductFound) {
+    return sendFailedRespons(
+      res,
+      400,
+      `No product with id ${req.body.productId} found`
+    );
+  }
+  if (isReviewEmpty) {
+    return sendFailedRespons(res, 400, "No review to submit");
+  }
+  if (!customerReview) {
+    return sendFailedRespons(
+      res,
+      400,
+      "Unable to submit your review, please try again"
+    );
+  }
+
+  return sendSuccessfullRespons(
+    res,
+    201,
+    "Submitted successfully",
+    customerReview
+  );
 };
+
 //define function to add customer review
 const addCustomerReviews = errHandler.handleAsyncError(async (req, res) => {
   const { isProductFound, hasCustomerAcount, isReviewEmpty, customerReview } =
