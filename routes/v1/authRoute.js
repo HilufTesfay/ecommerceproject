@@ -1,10 +1,10 @@
 const express = require("express");
 const { validate } = require("../../middleware");
-const { authValidation } = require("../../validations");
+const { authValidation, customerValidation } = require("../../validations");
 const { auth } = require("../../conrollers");
 const Router = express.Router();
 Router.route("/register").post(
-  validate(authValidation.register),
+  validate(customerValidation.createUser),
   auth.registerAdmin
 ); //post v1/auth/register api regeister user as admin
 Router.route("/login")

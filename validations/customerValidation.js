@@ -11,7 +11,7 @@ const createUser = {
     phoneNumber: joi.string().custom(validatePhone).required(),
     age: joi.number().integer().min(18).max(100).required(),
     email: joi.string().email().required(),
-    role: joi.string().valid("user"),
+    role: joi.string().valid("user", "admin"),
     address: joi.object().keys({
       region: joi.string().min(1).max(30),
       city: joi.string().min(1).max(30),
