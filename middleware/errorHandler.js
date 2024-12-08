@@ -1,19 +1,3 @@
-//define custom error class
-class CustomError extends Error {
-  constructor(message, statusCode) {
-    super(message);
-    this.statusCode = statusCode;
-    this.status = statusCode >= 400 && statusCode < 500 ? "Error" : "Failed";
-    this.isOperational = true;
-    Error.captureStackTrace(this, this.constructor);
-  }
-}
-//define async functions erorr handler
-const handleAsyncError = (asyncFunc) => {
-  return (req, res, next) => {
-    asyncFunc.call(this, req, res).catch((err) => next(err));
-  };
-};
 // a special async error handler for functions has this keyword
 const handleMgAsyncError = (asyncFunc) => {
   return function (next) {
@@ -89,7 +73,4 @@ const handleGlobalError = (error, req, res, next) => {
 
 module.exports = {
   handleGlobalError,
-  CustomError,
-  handleAsyncError,
-  handleMgAsyncError,
 };

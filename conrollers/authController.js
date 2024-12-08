@@ -1,5 +1,5 @@
 const { authService } = require("../services");
-const { errHandler } = require("../middleware");
+const { errHandler } = require("../utils");
 const { tokenService } = require("../services");
 const { sendFailedRespons } = require("./utils");
 //define register middleware

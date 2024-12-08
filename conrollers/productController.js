@@ -1,4 +1,4 @@
-const { errHandler } = require("../middleware");
+const { errHandler } = require("../utils");
 const { productService } = require("../services");
 const { default: mongoose } = require("mongoose");
 const { sendSuccessfullRespons, sendFailedRespons } = require("./utils");

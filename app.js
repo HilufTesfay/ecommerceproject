@@ -5,7 +5,7 @@ const compression = require("compression");
 const xss = require("xss-clean");
 const mongoSanitize = require("express-mongo-sanitize");
 const routes = require("./routes/v1");
-const { errHandler, authLimit } = require("./middleware");
+const { handleGlobalError, authLimit } = require("./middleware");
 const config = require("./config/config");
 const app = express();
 //set security header
@@ -36,5 +36,5 @@ app.all("*", (req, res, next) => {
   );
   next(err);
 });
-app.use(errHandler.handleGlobalError);
+app.use(handleGlobalError);
 module.exports = app;

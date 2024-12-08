@@ -1,5 +1,5 @@
 const joi = require("joi");
-const errorHandler = require("./errorHandler");
+const { errorHandler } = require("../utils");
 const { pick } = require("../utils");
 const validate = (schema) => (req, res, next) => {
   const validSchema = pick(schema, ["query", "body", "params"]);

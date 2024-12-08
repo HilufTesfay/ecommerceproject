@@ -1,6 +1,6 @@
 const { customerService } = require("../services");
 const { tokenService } = require("../services");
-const { errHandler } = require("../middleware");
+const { errHandler } = require("../utils");
 const { sendFailedRespons } = require("./utils");
 //define  middleware function to create new customer acount
 const createCustomer = errHandler.handleAsyncError(async (req, res) => {
