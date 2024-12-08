@@ -12,7 +12,7 @@ const createCustomer = errHandler.handleAsyncError(async (req, res) => {
       newCustomer.role
     );
     const message = "login successfully";
-    res.status(200).json(message, tokens);
+    res.status(200).json({ message, tokens });
   } else {
     if (isEmailUsed) {
       sendFailedRespons(rs, 400, "This Email is used, please use other email");

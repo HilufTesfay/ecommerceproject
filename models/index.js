@@ -1,5 +1,4 @@
 const Customer = require("./custemorModel");
-const Costomer = require("./custemorModel");
 const Product = require("./productModel");
 const Review = require("./reviewModel");
 const Token = require("./tokenModel");

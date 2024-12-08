@@ -47,16 +47,16 @@ const generateAuthToken = async (userId, userRole) => {
   );
   const accessToken = generateToken(
     userId,
+    userRole,
     accessExpires,
-    tokenTypes.ACCESS,
-    userRole
+    tokenTypes.ACCESS
   );
   const refreshExpires = moment().add(config.REFRESH_EXPIRATION_DAYS, "days");
   const refreshToken = generateToken(
     userId,
+    userRole,
     refreshExpires,
-    tokenTypes.REFRESH,
-    userRole
+    tokenTypes.REFRESH
   );
   const tokenDoc = await saveToken(
     refreshToken,

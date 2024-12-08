@@ -6,6 +6,7 @@ const compression = require("compression");
 const mongoSanitize = require("express-mongo-sanitize");
 const routes = require("./routes/v1");
 const { handleGlobalError, authLimit } = require("./middleware");
+const { errHandler } = require("./utils");
 const config = require("./config/config");
 const app = express();
 //set security header

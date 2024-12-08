@@ -1,5 +1,5 @@
 const joi = require("joi");
-const { errorHandler } = require("../utils");
+const { errHandler } = require("../utils");
 const { pick } = require("../utils");
 const validate = (schema) => (req, res, next) => {
   const validSchema = pick(schema, ["query", "body", "params"]);
@@ -10,7 +10,7 @@ const validate = (schema) => (req, res, next) => {
     .validate(validRequest);
   if (error) {
     const errorMessage = error.details.map((err) => err.message).join(", ");
-    const err = new errorHandler.CustomError(errorMessage, 500);
+    const err = new errHandler.CustomError(errorMessage, 500);
     next(err);
   }
   next();

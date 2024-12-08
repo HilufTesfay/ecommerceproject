@@ -8,12 +8,15 @@ const registerAdmin = errHandler.handleAsyncError(async (req, res) => {
     req
   );
   if (!isEmailUsed && !isPhoneUsed && !!newAdmin) {
-    const tokens = tokenService.generateAuthToken(newAdmin.id, newAdmin.role);
-    const message = "login successfully";
-    res.status(200).json(message, tokens);
+    const tokens = await tokenService.generateAuthToken(
+      newAdmin.id,
+      newAdmin.role
+    );
+    const message = "registered successfully";
+    res.status(200).json({ message, tokens });
   } else {
     if (isEmailUsed) {
-      sendFailedRespons(rs, 400, "This Email is used, please use other email");
+      sendFailedRespons(res, 400, "This Email is used, please use other email");
       return 0;
     }
     if (isPhoneUsed) {
@@ -30,7 +33,6 @@ const logInUser = errHandler.handleAsyncError(async (req, res) => {
     password
   );
   req.user = user;
-  console.log("con-user", req.user);
   const token = await tokenService.generateAuthToken(user.id, user.role);
   return res.status(200).json({
     message,
