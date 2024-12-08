@@ -9,7 +9,7 @@ const { handleGlobalError, authLimit } = require("./middleware");
 const config = require("./config/config");
 const app = express();
 //set security header
-app.use(helmet);
+app.use(helmet());
 //parse request body
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -19,8 +19,8 @@ app.use(mongoSanitize());
 //gzip compression
 app.use(compression());
 //enable cores
-app.use(cors);
-app.options("*", cors);
+app.use(cors());
+app.options("*", cors());
 if (config.ENV === "production") {
   // set ratelimiter middleware
   app.use("v1/auth", authLimit);
