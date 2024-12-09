@@ -6,7 +6,8 @@ const checkReview = (
   isProductFound,
   hasCustomerAccount,
   isReviewEmpty,
-  customerReview
+  customerReview,
+  res
 ) => {
   if (!hasCustomerAccount) {
     return sendFailedRespons(res, 400, "You have to create an account");
@@ -41,7 +42,13 @@ const checkReview = (
 const addCustomerReviews = errHandler.handleAsyncError(async (req, res) => {
   const { isProductFound, hasCustomerAcount, isReviewEmpty, customerReview } =
     await reviewService.addCustomerReviews(req);
-  checkReview(isProductFound, hasCustomerAcount, isReviewEmpty, customerReview);
+  checkReview(
+    isProductFound,
+    hasCustomerAcount,
+    isReviewEmpty,
+    customerReview,
+    res
+  );
 });
 const getReviews = errHandler.handleAsyncError(async (req, res) => {
   const { reviews, numOfReviews } = await reviewService.getReviews();

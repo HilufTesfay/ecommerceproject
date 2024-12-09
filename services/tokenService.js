@@ -86,6 +86,7 @@ const isAuthenticatedToken = async (req) => {
   }
   result.isValidToken = true;
   result.userRole = payload.role;
+  result.userId = payload.sub;
   return result;
 };
 module.exports = {

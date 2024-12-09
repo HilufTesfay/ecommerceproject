@@ -1,12 +1,13 @@
-const { tokenService } = require("../services");
+const { tokenService, customerService } = require("../services");
 const { roleRights } = require("../config/roles");
 //define function that ensures if customer or admin is authenticated
 const isAuthenticatedUser = async (req, res, next) => {
-  const { isValidToken } = await tokenService.isAuthenticatedToken(req);
+  const { isValidToken, userId } = await tokenService.isAuthenticatedToken(req);
   if (!isValidToken) {
     console.log("user is not authenticated, redirecting to login.");
     return res.redirect("/v1/auth/login");
   }
+  req.user = await customerService.getCustomerById(userId);
   return next();
 };
 
