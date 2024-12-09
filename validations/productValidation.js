@@ -15,12 +15,12 @@ const updateProduct = {
     id: joi.string().required().custom(validateObjectId),
   },
   body: {
-    name: joi.string().required(),
-    description: joi.string().required(),
-    price: joi.number().required(),
-    category: joi.string().required(),
-    brand: joi.string().required(),
-    stock: joi.number().required(),
+    name: joi.string(),
+    description: joi.string(),
+    price: joi.number(),
+    category: joi.string(),
+    brand: joi.string(),
+    stock: joi.number(),
   },
 };
 const deleteProduct = {
