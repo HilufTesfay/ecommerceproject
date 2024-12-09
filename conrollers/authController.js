@@ -12,7 +12,6 @@ const registerAdmin = errHandler.handleAsyncError(async (req, res) => {
       newAdmin.id,
       newAdmin.role
     );
-    req.user = newAdmin;
     const message = "registered successfully";
     res.status(200).json({ message, tokens });
   } else {
@@ -33,7 +32,6 @@ const logInUser = errHandler.handleAsyncError(async (req, res) => {
     email,
     password
   );
-  req.user = user;
   const token = await tokenService.generateAuthToken(user.id, user.role);
   return res.status(200).json({
     message,
@@ -58,9 +56,6 @@ const logOutUser = errHandler.handleAsyncError(async (req, res) => {
     return;
   }
   const message = await authService.logOut(refreshToken);
-  if (req.user) {
-    delete req.user;
-  }
   res.status(200).json(message);
 });
 const sendLoginForm = (req, res, next) => {

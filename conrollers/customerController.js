@@ -11,8 +11,6 @@ const createCustomer = errHandler.handleAsyncError(async (req, res) => {
       newCustomer.id,
       newCustomer.role
     );
-    req.user = newCustomer;
-    console.log(req.user);
     const message = "login successfully";
     res.status(200).json({ message, tokens });
   } else {
