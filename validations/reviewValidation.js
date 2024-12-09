@@ -2,7 +2,7 @@ const joi = require("joi");
 const { validateObjectId } = require("./customValidation");
 const addCustomerReview = {
   params: {
-    productId: joi.string().required().custom(validateObjectId),
+    id: joi.string().required().custom(validateObjectId),
   },
   body: {
     comment: joi.string(),
