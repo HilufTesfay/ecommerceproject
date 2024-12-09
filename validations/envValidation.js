@@ -21,6 +21,10 @@ const envSchema = joi
       .number()
       .default(15)
       .description("access token expires after 15 days "),
+    HOST: joi.string().required(),
+    SMTP_PORT: joi.number().required(),
+    SMTP_USER_NAME: joi.string().required().default("user"),
+    SMTP_PASSWORD: joi.string().required().default("password"),
   })
   .unknown();
 module.exports = { envSchema };

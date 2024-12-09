@@ -17,4 +17,11 @@ module.exports = {
   SECRET_KEY: envVars.SECRET_KEY,
   ACCESS_EXPIRATION_MINUTES: envVars.ACCESS_EXPIRATION_MINUTES,
   REFRESH_EXPIRATION_DAYS: envVars.REFRESH_EXPIRATION_DAYS,
+  EMAIl: {
+    host: envVars.HOST,
+    port: envVars.SMTP_PORT,
+    userName: envVars.SMTP_USER_NAME,
+    password: envVars.SMTP_PASSWORD,
+    from: envVars.FROM,
+  },
 };
