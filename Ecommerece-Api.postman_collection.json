@@ -1,0 +1,878 @@
+{
+	"info": {
+		"_postman_id": "ff23264d-5a69-4561-a67e-f7629f2cf0f9",
+		"name": "Ecommerece-Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39141849"
+	},
+	"item": [
+		{
+			"name": "v1/auth",
+			"item": [
+				{
+					"name": "register-admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"Hiluf\",\r\n  \"lastName\": \"Tesfay\",\r\n  \"email\": \"hiluftesafy@gmail.com\",\r\n  \"phoneNumber\": \"0926756578\",\r\n  \"age\":26,\r\n  \"password\": \"abcd1234\",\r\n  \"address\":{\r\n    \"city\":\"MK\"\r\n  }\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/auth/register",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login-user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login-user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"hiluftesafy@gmail.com\",\r\n    \"password\": \"abcd1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refresh-token",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzU1ODkzNDUzNTE5ZGU2NTU1MDY4ZWQiLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTczMzY1OTI5MCwiZXhwIjoxNzM0OTU1MjkwLCJyb2xlIjoiYWRtaW4ifQ.dNHLBcv3Z1skXWvZoDbzPgucywYCS9Sn-BTMbyk9MeE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/auth/refresh-token",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"auth",
+								"refresh-token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout-user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refreshToken\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzU1ODkzNDUzNTE5ZGU2NTU1MDY4ZWQiLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTczMzY1ODkzMiwiZXhwIjoxNzM0OTU0OTMyLCJyb2xlIjoiYWRtaW4ifQ.EPtpVL4fv3m8KoMiYDfb6VFYrcFmxD65K9zYCr2FoLo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/auth/logout",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "v1/customers",
+			"item": [
+				{
+					"name": "create-customer",
+					"request": {
+						"auth": {
+							"type": "bearer"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\":\"nati\",\r\n    \"lastName\":\"gdey\",\r\n    \"email\":\"nati@gmail.com\",\r\n    \"phoneNumber\":\"0972123445\",\r\n    \"age\":25,\r\n    \"password\":\"abcd1234\",\r\n    \"address\":{\r\n        \"region\":\"AA\",\r\n        \"city\":\"AA\"\r\n    }\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/customers",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-profile",
+					"request": {
+						"auth": {
+							"type": "jwt",
+							"jwt": [
+								{
+									"key": "algorithm",
+									"value": "HS256",
+									"type": "string"
+								},
+								{
+									"key": "isSecretBase64Encoded",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "payload",
+									"value": "{}",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "queryParamKey",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "header",
+									"value": "{}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzU2OTM5NDdlOGQ4MzkxOGE0MGFiZGQiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzMzNzM3OTY0LCJleHAiOjE3MzM3NDY5NjQsInJvbGUiOiJ1c2VyIn0.euV3MHlcZLbfWvvj7UsR7-0mE0gL7rHveb8EKNf8HQk",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/customers/ac/profile",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"customers",
+								"ac",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-customer",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzU2OTMzMTdlOGQ4MzkxOGE0MGFiZDYiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzMzNzI3MDI1LCJleHAiOjE3MzM3MzYwMjUsInJvbGUiOiJhZG1pbiJ9.2b-n4hnnRp2lOFmUv7FJssJPIOfHmuSYRD9H8wjabmQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/customers/675692b97e8d83918a40abcb",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"customers",
+								"675692b97e8d83918a40abcb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-customer",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzU2OTMzMTdlOGQ4MzkxOGE0MGFiZDYiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzMzNzI3MjExLCJleHAiOjE3MzM3MzYyMTEsInJvbGUiOiJhZG1pbiJ9.vTUejHxrsL7fh-7bQWR8fHhbLFvt1j1swQ3JFtgm_E8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/customers/675693947e8d83918a40abdd",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"customers",
+								"675693947e8d83918a40abdd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-customers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzU2OTMzMTdlOGQ4MzkxOGE0MGFiZDYiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzMzNzI3MjExLCJleHAiOjE3MzM3MzYyMTEsInJvbGUiOiJhZG1pbiJ9.vTUejHxrsL7fh-7bQWR8fHhbLFvt1j1swQ3JFtgm_E8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/customers/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"customers",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-my-profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": " bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzU2OTM5NDdlOGQ4MzkxOGE0MGFiZGQiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzMzNzM3OTY0LCJleHAiOjE3MzM3NDY5NjQsInJvbGUiOiJ1c2VyIn0.euV3MHlcZLbfWvvj7UsR7-0mE0gL7rHveb8EKNf8HQk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\":\"hailush\",\r\n    \"lastName\":\"ali\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/customers/ac/profile",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"customers",
+								"ac",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delele-my-profile",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzU2OTM5NDdlOGQ4MzkxOGE0MGFiZGQiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzMzNzM3OTY0LCJleHAiOjE3MzM3NDY5NjQsInJvbGUiOiJ1c2VyIn0.euV3MHlcZLbfWvvj7UsR7-0mE0gL7rHveb8EKNf8HQk",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/customers/ac/profile",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"customers",
+								"ac",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "v1/products",
+			"item": [
+				{
+					"name": "create-product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzU2OTMzMTdlOGQ4MzkxOGE0MGFiZDYiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzMzNzI3MjExLCJleHAiOjE3MzM3MzYyMTEsInJvbGUiOiJhZG1pbiJ9.vTUejHxrsL7fh-7bQWR8fHhbLFvt1j1swQ3JFtgm_E8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"name\":\"len-02\",\r\n\"description\":\"Simple, Smart, and Affordable.\",\r\n\"price\":500,\r\n\"category\":\"computer\",\r\n\"brand\":\"lenvo\",\r\n\"stock\":50\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/products",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-products",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzU2OTMzMTdlOGQ4MzkxOGE0MGFiZDYiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzMzNzI3MjExLCJleHAiOjE3MzM3MzYyMTEsInJvbGUiOiJhZG1pbiJ9.vTUejHxrsL7fh-7bQWR8fHhbLFvt1j1swQ3JFtgm_E8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/products",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-product",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzU2OTMzMTdlOGQ4MzkxOGE0MGFiZDYiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzMzNzI3MjExLCJleHAiOjE3MzM3MzYyMTEsInJvbGUiOiJhZG1pbiJ9.vTUejHxrsL7fh-7bQWR8fHhbLFvt1j1swQ3JFtgm_E8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n    \"price\":150,\r\n    \"stock\":10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/products/675698217e8d83918a40abf1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"products",
+								"675698217e8d83918a40abf1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-product",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzU2OTMzMTdlOGQ4MzkxOGE0MGFiZDYiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzMzNzI3MjExLCJleHAiOjE3MzM3MzYyMTEsInJvbGUiOiJhZG1pbiJ9.vTUejHxrsL7fh-7bQWR8fHhbLFvt1j1swQ3JFtgm_E8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/products/675698217e8d83918a40abf1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"products",
+								"675698217e8d83918a40abf1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search-products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/products/search?minPrice=100&maxPrice=600&category=computer",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"products",
+								"search"
+							],
+							"query": [
+								{
+									"key": "minPrice",
+									"value": "100"
+								},
+								{
+									"key": "maxPrice",
+									"value": "600"
+								},
+								{
+									"key": "category",
+									"value": "computer"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "v1/products/reviews",
+			"item": [
+				{
+					"name": "add-review",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzU2OTM5NDdlOGQ4MzkxOGE0MGFiZGQiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzMzNzMxMTYzLCJleHAiOjE3MzM3NDAxNjMsInJvbGUiOiJ1c2VyIn0.FBV5xzKv7Ym4LugycyzQQkAQodTmEXWbVxNlGF7PFdg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rating\":5,\r\n    \"comment\":\"i like it\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/products/reviews/6755f8c1ff60bb41d860731c",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"products",
+								"reviews",
+								"6755f8c1ff60bb41d860731c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-reviews",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzU2OTMzMTdlOGQ4MzkxOGE0MGFiZDYiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzMzNzI3MDI1LCJleHAiOjE3MzM3MzYwMjUsInJvbGUiOiJhZG1pbiJ9.2b-n4hnnRp2lOFmUv7FJssJPIOfHmuSYRD9H8wjabmQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/products/reviews",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"products",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-review",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzU2OTMzMTdlOGQ4MzkxOGE0MGFiZDYiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzMzNzI3MDI1LCJleHAiOjE3MzM3MzYwMjUsInJvbGUiOiJhZG1pbiJ9.2b-n4hnnRp2lOFmUv7FJssJPIOfHmuSYRD9H8wjabmQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/products/reviews/6756afee835b4c8aa7039b56",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"products",
+								"reviews",
+								"6756afee835b4c8aa7039b56"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "v1/customers/search",
+			"item": [
+				{
+					"name": "search-by-email",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzU2OTMzMTdlOGQ4MzkxOGE0MGFiZDYiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzMzNzI3MDI1LCJleHAiOjE3MzM3MzYwMjUsInJvbGUiOiJhZG1pbiJ9.2b-n4hnnRp2lOFmUv7FJssJPIOfHmuSYRD9H8wjabmQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/customers/search/email?email=nati@gmail.com",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"customers",
+								"search",
+								"email"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "nati@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search-by-phone-number",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NzU2OTMzMTdlOGQ4MzkxOGE0MGFiZDYiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzMzNzI3MDI1LCJleHAiOjE3MzM3MzYwMjUsInJvbGUiOiJhZG1pbiJ9.2b-n4hnnRp2lOFmUv7FJssJPIOfHmuSYRD9H8wjabmQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/v1/customers/search/phone?phoneNumber=0972123445",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"v1",
+								"customers",
+								"search",
+								"phone"
+							],
+							"query": [
+								{
+									"key": "phoneNumber",
+									"value": "0972123445"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
