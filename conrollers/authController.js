@@ -1,7 +1,8 @@
-const { authService } = require("../services");
+const { authService, customerService } = require("../services");
 const { errHandler } = require("../utils");
-const { tokenService } = require("../services");
+const { tokenService, emailService } = require("../services");
 const { sendFailedRespons } = require("./utils");
+const { tokenTypes } = require("../config/config");
 //define register middleware
 const registerAdmin = errHandler.handleAsyncError(async (req, res) => {
   const { isPhoneUsed, isEmailUsed, newAdmin } = await authService.register(
@@ -65,10 +66,40 @@ const sendLoginForm = (req, res, next) => {
     password: "password",
   });
 };
+const forgetPassword = errHandler.handleAsyncError(async (req, res) => {
+  const { email } = req.body;
+  const user = await customerService.getCustomerByEmail(email);
+  if (!user) {
+    return res.status(404).send(`no user found with this email ${email}`);
+  }
+  const resetToken = await tokenService.generateRestToken(user.id, user.role);
+  await emailService.sendEmail(email, resetToken);
+  res.status(200).send("we sent you verification email,check you email");
+});
+const resetPassword = errHandler.handleAsyncError(async (req, res) => {
+  const { resetToken } = req.query;
+  const { newPassword } = req.body;
+  const resetTokenDoc = await tokenService.verifyToken(
+    resetToken,
+    tokenTypes.RESET
+  );
+  if (!resetTokenDoc) {
+    return res.status(404).send("reset token not found");
+  }
+
+  const user = await customerService.getCustomerById(resetTokenDoc.user);
+  if (!user) {
+    return res.status(404).send("This user is not available");
+  }
+  user.password = newPassword;
+  await user.save();
+});
 module.exports = {
   logInUser,
   logOutUser,
   refreshAuth,
   registerAdmin,
+  forgetPassword,
+  resetPassword,
   sendLoginForm,
 };

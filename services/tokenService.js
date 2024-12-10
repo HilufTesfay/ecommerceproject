@@ -70,6 +70,37 @@ const generateAuthToken = async (userId, userRole) => {
     refreshToken: refreshToken,
   };
 };
+//define function to generate password resttoken
+const generateRestToken = async (userId, userRole) => {
+  const resetExpires = moment().add(
+    config.RESET_PASSWORD_EXPIRATION_MINUTES,
+    "minutes"
+  );
+  const restToken = generateToken(
+    userId,
+    userRole,
+    resetExpires,
+    tokenTypes.RESET
+  );
+  await saveToken(userId, tokenTypes.RESET, resetExpires, false);
+  return restToken;
+};
+//define function to verify email
+const generateVerifyToken = async (userId, userRole) => {
+  const verifyExpires = moment().add(
+    config.VERIFY_EMAIL_EXPIRATION_MINUTES,
+    "minutes"
+  );
+  const verifyToken = generateToken(
+    userId,
+    userRole,
+    verifyExpires,
+    tokenTypes.VERIFY
+  );
+  await saveToken(userId, tokenTypes.VERIFY, verifyExpires, false);
+  return verifyToken;
+};
+//define function to authenticate acess token
 const isAuthenticatedToken = async (req) => {
   const result = {
     isValidToken: false,
@@ -92,6 +123,8 @@ const isAuthenticatedToken = async (req) => {
 module.exports = {
   generateToken,
   generateAuthToken,
+  generateRestToken,
+  generateVerifyToken,
   saveToken,
   verifyToken,
   isAuthenticatedToken,

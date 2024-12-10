@@ -21,10 +21,20 @@ const envSchema = joi
       .number()
       .default(15)
       .description("access token expires after 15 days "),
+    RESET_PASSWORD_EXPIRATION_MINUTES: joi
+      .number()
+      .default(5)
+      .description("password reset token expires after 15 days "),
+    VERIFY_EMAIL_EXPIRATION_MINUTES: joi
+      .number()
+      .default(5)
+      .description("email verification token expires after 15 days "),
+
     HOST: joi.string().required(),
     SMTP_PORT: joi.number().required(),
     SMTP_USER_NAME: joi.string().required().default("user"),
     SMTP_PASSWORD: joi.string().required().default("password"),
+    FROM: joi.string().default("support@ecommerce.com"),
   })
   .unknown();
 module.exports = { envSchema };
