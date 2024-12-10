@@ -15,4 +15,13 @@ Router.route("/refresh-token").get(
   validate(authValidation.refreshToken),
   auth.refreshAuth
 ); //get v1/auth/refresh-token api to request referesh token
+Router.route("/reset-passwod").post(
+  validate(authValidation.resetPassword),
+  auth.resetPassword
+);
+Router.route("/forget-password").post(
+  validate(authValidation.forgetPassword),
+  auth.forgetPassword
+);
+
 module.exports = Router;

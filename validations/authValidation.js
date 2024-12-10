@@ -16,4 +16,17 @@ const refreshToken = {
     refreshToken: joi.string().required(),
   }),
 };
-module.exports = { logIn, logout, refreshToken };
+const forgetPassword = {
+  body: joi.object().keys({
+    email: joi.string().email().required(),
+  }),
+};
+const resetPassword = {
+  query: joi.object().keys({
+    resetToken: joi.string().required(),
+  }),
+  body: joi.object().keys({
+    newPassword: joi.string().custom(validatePassword).required(),
+  }),
+};
+module.exports = { logIn, logout, refreshToken, forgetPassword, resetPassword };
