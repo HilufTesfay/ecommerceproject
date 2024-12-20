@@ -23,9 +23,8 @@ const handleUnhandledError = (err) => {
   if (config.ENV === "development") {
     console.log(err);
     handleExit();
-  } else {
-    handleExit();
   }
+  handleExit();
 };
 process.on("uncaughtException", handleUnhandledError);
 process.on("unhandledRejection", handleUnhandledError);

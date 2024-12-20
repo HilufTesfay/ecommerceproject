@@ -81,7 +81,7 @@ const deletePrivateField = function (obj, path, index) {
   return;
 };
 //define function to format the json
-const toJSON = function (schema, options) {
+const toJSON = function (schema) {
   let transform = null;
   //if predined transform function exist store it in transform variable
   if (schema.options.toJSON && schema.options.toJSON.tansform) {
@@ -131,10 +131,10 @@ const hashPassword = function (schema) {
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(user.password, salt);
       }
-      next();
     } catch (error) {
-      next(error);
+      return next(error);
     }
+    next();
   });
 };
 
@@ -144,7 +144,7 @@ const verifyPassword = function (schema) {
     try {
       return await bcrypt.compare(password, this.password);
     } catch (error) {
-      next(error);
+      throw new Error(error);
     }
   };
 };

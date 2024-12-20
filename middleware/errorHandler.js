@@ -1,9 +1,4 @@
-// a special async error handler for functions has this keyword
-const handleMgAsyncError = (asyncFunc) => {
-  return function (next) {
-    asyncFunc.call(this, next).catch((err) => next(err));
-  };
-};
+const { errHandler } = require("../utils");
 //define error handler at development stage
 function handleDevError(err, res) {
   res.status(err.statusCode).json({
@@ -34,7 +29,7 @@ function handleCastError(err) {
   const key = Object.keys(err.errors);
   console.log(key);
   const msg = `In valid input for ${key.path}`;
-  return new CustomError(msg, 400);
+  return new errHandler.CustomError(msg, 400);
 }
 // define mongoose validation error handler function
 const handleValidationError = (err) => {
@@ -42,14 +37,14 @@ const handleValidationError = (err) => {
   let joinedmsg = errMesssage.join(", ");
   let msg = `invalid input,${joinedmsg}`;
 
-  return new CustomError(msg, 400);
+  return new errHandler.CustomError(msg, 400);
 };
 //define duplicate key handler function
 function handleDuplicateError(err) {
   const key = Object.keys(err.keyValue);
   const value = Object.values(err.keyValue);
   const msg = `${value} is already in use,please enter other ${key} `;
-  return new CustomError(msg, 400);
+  return new errHandler.CustomError(msg, 400);
 }
 //define global error handler
 const handleGlobalError = (error, req, res, next) => {
