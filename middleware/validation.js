@@ -13,6 +13,7 @@ const validate = (schema) => (req, res, next) => {
     const err = new errHandler.CustomError(errorMessage, 500);
     next(err);
   }
+  Object.assign(req, value);
   next();
 };
 module.exports = { validate };
