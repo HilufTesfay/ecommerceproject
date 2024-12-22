@@ -5,9 +5,8 @@ const { sendFailedRespons } = require("./utils");
 const { tokenTypes } = require("../config/config");
 //define register middleware
 const registerAdmin = errHandler.handleAsyncError(async (req, res) => {
-  const { isPhoneUsed, isEmailUsed, newAdmin } = await authService.register(
-    req
-  );
+  const { isPhoneUsed, isEmailUsed, newAdmin } =
+    await authService.register(req);
   if (!isEmailUsed && !isPhoneUsed && !!newAdmin) {
     const tokens = await tokenService.generateAuthToken(
       newAdmin.id,
@@ -72,7 +71,7 @@ const forgetPassword = errHandler.handleAsyncError(async (req, res) => {
   if (!user) {
     return res.status(404).send(`no user found with this email ${email}`);
   }
-  const resetToken = await tokenService.generateRestToken(user.id, user.role);
+  const resetToken = await tokenService.generateResetToken(user.id, user.role);
   await emailService.sendEmail(email, resetToken);
   res.status(200).send("we sent you verification email,check you email");
 });

@@ -71,7 +71,7 @@ const generateAuthToken = async (userId, userRole) => {
   };
 };
 //define function to generate password resttoken
-const generateRestToken = async (userId, userRole) => {
+const generateResetToken = async (userId, userRole) => {
   const resetExpires = moment().add(
     config.RESET_PASSWORD_EXPIRATION_MINUTES,
     "minutes"
@@ -123,7 +123,7 @@ const isAuthenticatedToken = async (req) => {
 module.exports = {
   generateToken,
   generateAuthToken,
-  generateRestToken,
+  generateResetToken,
   generateVerifyToken,
   saveToken,
   verifyToken,
